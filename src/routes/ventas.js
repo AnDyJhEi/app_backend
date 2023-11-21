@@ -29,9 +29,9 @@ router.post("/ventas", (req, res) => {
 //put : Actualizar venta por su ID
 router.put("/ventas/:id", (req, res) => {
     const {id} = req.params; 
-    const {cliente,products,size, price, quantity, date,Pay,modality,voucher} = req.body;
+    const {cliente,productos,fecha, total} = req.body;
          //Actualiza la venta en la base de datos 
-    ventasModel.updateOne({_id:id}, {$set:{cliente,products,size, price, quantity, date,Pay,modality,voucher}})
+    ventasModel.updateOne({_id:id}, {$set:{cliente,productos,fecha, total}})
         .then((data) => res.json({mensaje:"Objeto actualizado"}))
         .catch((error) => res.json({mensaje:error}))
 });

@@ -1,24 +1,23 @@
 const mongoose = require("mongoose")
 
-const ventasModel = mongoose.Schema({
+const inventario = mongoose.Schema({
        
-        cliente:{
+        producto:{
             type:String,
             required:true
         },
-        productos:{
-            type: [String],
+        stock:{
+            type: Number,
             required: true
         },
-        fecha:{
+        color:{
             type: String,
             required: true
         },
-        total:{
-            type:String,
+        talla:{
             type:Number,
             required:true
         }
 })
 
-module.exports = mongoose.model("Ventas", ventasModel);
+module.exports = mongoose.model("inventario",inventario);
