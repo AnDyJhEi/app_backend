@@ -12,17 +12,14 @@ const usuarios = mongoose.Schema({
         },
         correo:{
             type: String,
-            type:Number,
             required: true
         },
         username:{
             type:String,
-            type:Number,
             required:true
         },
         contraseña:{
             type:String,
-            type:Number,
             required:true
         },
         dni:{
