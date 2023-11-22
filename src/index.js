@@ -36,9 +36,9 @@ const swaggerConf = {
 app.use(express.json());
 app.use("/api", ventas);
 app.use("/api", usuarios);
-app.use("/api", productos);
-app.use("/api", inventario);
-app.use("/api", delivery);
+//app.use("/api", productos);
+//app.use("/api", inventario);
+//app.use("/api", delivery);
 
 //route
 

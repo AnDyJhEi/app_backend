@@ -6,10 +6,18 @@ const ventasModel = mongoose.Schema({
             type:String,
             required:true
         },
-        productos:{
-            type: [String],
-            required: true
-        },
+        productos: [
+            {
+                producto: {
+                    type: String,
+                    required: true,
+                },
+                cantidad: {
+                    type: Number,
+                    required: true,
+                },
+            }
+        ],
         fecha:{
             type: String,
             required: true
