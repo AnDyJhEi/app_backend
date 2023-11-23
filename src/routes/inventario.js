@@ -13,13 +13,13 @@ const inventarioModel = require("../models/inventario");
  *            type: string
  *            description: Nombre del producto en inventario
  *          stock:
- *            type: number
+ *            type: intenger
  *            description: Cantidad en stock del producto
  *          color:
  *            type: string
  *            description: Color del producto en inventario
  *          talla:
- *            type: number
+ *            type: string
  *            description: Talla del producto en inventario
  *        required:
  *          - producto
@@ -30,7 +30,29 @@ const inventarioModel = require("../models/inventario");
  *          producto: Camiseta
  *          stock: 50
  *          color: Azul
- *          talla: 3
+ *          talla: M
  */
+//get: Para obtener todo el inventario
+router.get("/inventario", (req, res) => {
+    inventarioModel.find()
+        .then((data) => res.json(data))
+        .catch((error) => res.json({mensaje:error}))
+});
 
+/**
+ * @swagger
+ * /api/inventario:
+ *  get:
+ *      summary: Muestra todas las ventas 
+ *      tags: [inventario]
+ *      responses:
+ *          200:
+ *              description: ventas mostradas correctamente
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          type: array
+ *                      items:
+ *                          $ref: '#components/schemas/inventario'
+ */
 module.exports = router;

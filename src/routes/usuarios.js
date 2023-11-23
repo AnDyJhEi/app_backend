@@ -101,10 +101,10 @@ router.get("/usuarios/:dni", (req, res) => {
 
 //post : Crea nuevo usuario
 router.post("/usuarios", (req, res) => {
-    const nuevousuario = new ventasModel(req.body);
+    const nuevousuario = new usuarioModel(req.body);
     console.log(req.body)
     nuevousuario.save()
-        .then((data) => res.json({mensaje:"Objeto guardado",usuario:data}))
+        .then((data) => res.json({mensaje:"Objeto guardado",usuarios:data}))
         .catch((error) => res.json({mensaje:error}))
 });
 
@@ -119,7 +119,7 @@ router.post("/usuarios", (req, res) => {
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/Usuario'
+ *             $ref: '#/components/schemas/usuarios'
  *     responses:
  *       200:
  *         description: Usuario creado exitosamente

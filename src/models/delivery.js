@@ -1,19 +1,29 @@
 const mongoose = require("mongoose")
-
 const delivery = mongoose.Schema({
        
         cliente:{
             type:String,
             required:true
         },
+        producto:{
+            type:String,
+            required:true
+        },
         direccion:{
             type: String,
-            type:Number,
             required: true
         },
-        venta:{
+        ciudad:{
+            type:String,
+            required:true
+        },
+        telefono:{
             type:Number,
-            required: true
+            required:true
+        },
+        email:{
+            type:String,
+            required:true
         },
         fecha_entrega:{
             type:String,

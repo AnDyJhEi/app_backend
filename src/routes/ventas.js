@@ -15,6 +15,9 @@ const ventasModel = require("../models/ventas");
  *                  productos:
  *                      type: String
  *                      description:  Productos comprados
+ *                  cantidad:
+ *                      type: intenger
+ *                      description: Cantidad de productos
  *                  fecha:
  *                      type: string
  *                      description:  Fecha de compra realizada
@@ -24,11 +27,13 @@ const ventasModel = require("../models/ventas");
  *              required:
  *                  - cliente
  *                  - productos
+ *                  - cantidad
  *                  - fecha
  *                  - total
  *              example:
  *                  cliente:  Jose Huaman Diaz
  *                  productos: Gorra
+ *                  cantidad: 2
  *                  fecha: 12_12_2013
  *                  total: 100
  */  
@@ -89,33 +94,31 @@ router.get("/ventas/:cliente", (req, res) => {
  * 
  */
 
-//post : Crea nueva venta
+// POST: Para crear un nueva venta
 router.post("/ventas", (req, res) => {
-    const venta = ventasModel(req.body);
-    console.log(req.body)
-    venta.save()
-        .then((data) => res.json({mensaje:"Objeto guardado"}))
-        .catch((error) => res.json({mensaje:error}))
+    const nuevaventa = new ventasModel(req.body);
+
+    nuevaventa.save()
+        .then((data) => res.json({ mensaje: "Objeto guardado", ventas: data }))
+        .catch((error) => res.json({ mensaje: error }));
 });
 /**
  * @swagger
  * /api/ventas:
- *  post:
- *      summary: Guardar una venta  
- *      tags: [ventas]
- *      requestBody:
- *          required: true
- *          content:
- *              application/json:
- *                  schema:
- *                      type: object
- *                  item:
- *                             $ref: '#components/schemas/ventas'
- *      responses:
- *          200:
- *              description: Venta guardada
- *          404:
- *              description: Error de venta
+ *   post:
+ *     summary: Crear una nueva venta
+ *     tags: [ventas]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/ventas'
+ *     responses:
+ *       200:
+ *         description: Venta creado exitosamente
+ *       400:
+ *         description: Error al crear la venta
  */
 
 //put : Actualizar venta por su ID
