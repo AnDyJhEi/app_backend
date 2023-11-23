@@ -32,4 +32,5 @@ const inventarioModel = require("../models/inventario");
  *          color: Azul
  *          talla: 3
  */
+
 module.exports = router;
