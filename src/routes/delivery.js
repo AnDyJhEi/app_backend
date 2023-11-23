@@ -22,8 +22,8 @@ const deliveryModel = require("../models/delivery");
  *            type: string
  *            description: Ciudad del cliente
  *          telefono:
- *            type: intenger
- *            description: Telefono del cliente 
+ *            type: integer  
+ *            description: Telefono del cliente
  *          email:
  *            type: string
  *            description: Email del cliente
@@ -53,61 +53,70 @@ const deliveryModel = require("../models/delivery");
  *          estado: Pendiente
  */
 
-//get: Para obtener las ventas 
+// Mostrar todas las entregas
 router.get("/delivery", (req, res) => {
     deliveryModel.find()
         .then((data) => res.json(data))
-        .catch((error) => res.json({mensaje:error}))
+        .catch((error) => res.json({ mensaje: error }));
 });
+
 /**
  * @swagger
  * /api/delivery:
- *  get:
- *      summary: Muestra todas los delivery
- *      tags: [delivery]
- *      responses:
- *          200:
- *              description: ventas mostradas correctamente
- *              content:
- *                  application/json:
- *                      schema:
- *                          type: array
- *                      items:
- *                          $ref: '#components/schemas/delivery'
+ *   get:
+ *     summary: Muestra todas las entregas
+ *     tags: [delivery]
+ *     responses:
+ *       200:
+ *         description: Entregas mostradas correctamente
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#components/schemas/delivery'
  */
-//getfindOne:obtener venta segun el cliente
-router.get("/delivery/:cliente", (req, res) => {
-    const {cliente} = req.params;
-    deliveryModel.findOne({cliente})
-        .then((data) => res.json(data))
-        .catch((error) => res.json({mensaje:error}))
+
+
+// Obtener entrega por fecha
+router.get("/delivery/date/:fecha", (req, res) => {
+    const { fecha } = req.params;
+
+    deliveryModel.findOne({ fecha_entrega: fecha })
+        .then((data) => {
+            if (data) {
+                res.json(data);
+            } else {
+                res.status(404).json({ mensaje: "No se encontró ninguna entrega para la fecha especificada." });
+            }
+        })
+        .catch((error) => res.status(500).json({ mensaje: error }));
 });
+
 /**
  * @swagger
- * /api/delivery/{cliente}:
- *  get:
- *      summary: Busqueda de delivery por su cliente
- *      tags: [delivery]
- *      parameters:
- *          - in: path
- *            name: cliente 
- *            schema:
- *              type: string
- *            required: true
- *            description: Nombre del cliente a buscar
- *      responses:
- *          200:
- *              description: Delivery encontrado
- *              content:
- *                  application/json:
- *                      schema:
- *                          type: object
- *                          item:
- *                             $ref: '#components/schemas/delivery'
- *          404:
- *              description : El delivery no existe
- * 
+ * /api/delivery/date/{fecha}:
+ *   get:
+ *     summary: Obtener entrega por fecha
+ *     tags: [delivery]
+ *     parameters:
+ *       - in: path
+ *         name: fecha
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Fecha de entrega a buscar
+ *     responses:
+ *       200:
+ *         description: Entrega encontrada
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#components/schemas/delivery'
+ *       404:
+ *         description: No se encontró ninguna entrega para la fecha especificada
  */
+
 
 // POST: Para crear un nuevo producto
 router.post("/delivery", (req, res) => {
@@ -139,33 +148,33 @@ router.post("/delivery", (req, res) => {
 //put : Actualizar delivery por su estado
 router.put("/delivery/:estado", (req, res) => {
     const {estado} = req.params; 
-    const {cliente,productos, total} = req.body;
-         //Actualiza la delivery en la base de datos 
-    deliveryModel.updateOne({estado}, {$set:{cliente,productos, total}})
+    const {cliente, productos, total} = req.body;
+    // Actualiza la delivery en la base de datos 
+    deliveryModel.updateOne({estado}, {$set:{cliente, productos, total}})
         .then((data) => res.json({mensaje:"Objeto actualizado"}))
         .catch((error) => res.json({mensaje:error}))
 });
 /**
  * @swagger
- * /api/delivery/{fecha}:
+ * /api/delivery/{estado}:
  *  put:
- *      summary: Actualizar un delivery por la fecha  
+ *      summary: Actualizar un delivery por el estado  
  *      tags: [delivery]
  *      parameters:
  *          - in: path
- *            name: cliente 
- *            schemas:
+ *            name: estado 
+ *            schema:
  *              type: string
  *            required: true
- *            description: Fecha de delivery a actualizar
+ *            description: Estado de la delivery a actualizar
  *      requestBody:
  *          required: true
  *          content:
  *              application/json:
  *                  schema:
  *                      type: object
- *                  item:
- *                             $ref: '#components/schemas/delivery'
+ *                  items:  
+ *                    $ref: '#components/schemas/delivery'
  *      responses:
  *          200:
  *              description: Delivery actualizado
@@ -189,7 +198,7 @@ router.delete("/delivery/:cliente",(req, res) => {
  *      parameters:
  *          - in: path
  *            name: cliente 
- *            schemas:
+ *            schema:
  *              type: string
  *            required: true
  *            description: Nombre del delivery a buscar para eliminar
@@ -199,8 +208,8 @@ router.delete("/delivery/:cliente",(req, res) => {
  *              application/json:
  *                  schema:
  *                      type: object
- *                  item:
- *                             $ref: '#components/schemas/delivery'
+ *                  items:  
+ *                    $ref: '#components/schemas/delivery'
  *      responses:
  *          200:
  *              description: Delivery eliminada

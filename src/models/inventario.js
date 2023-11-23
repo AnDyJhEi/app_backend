@@ -15,7 +15,7 @@ const inventario = mongoose.Schema({
             required: true
         },
         talla:{
-            type:Number,
+            type: Number,
             required:true
         }
 })
