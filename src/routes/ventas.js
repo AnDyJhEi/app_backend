@@ -121,7 +121,7 @@ router.post("/ventas", (req, res) => {
  *         description: Error al crear la venta
  */
 
-//put : Actualizar venta por su ID
+//put : Actualizar venta por su fecha
 router.put("/ventas/:fecha", (req, res) => {
     const {fecha} = req.params; 
     const {cliente,productos, total} = req.body;
